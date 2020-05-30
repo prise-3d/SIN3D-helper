@@ -17,22 +17,21 @@ def get_scene_image_quality(img_path):
 
 def rename_folder_images(p_folder, scenes, output, expected):
 
-    scenes_path = [ os.path.join(p_folder, p) for p in scenes ]
 
-    for scene_p in scenes_path:
+    for scene in scenes:
 
-        output_folder_path = os.path.join(output, scene_p)
+        scene_p = os.path.join(p_folder, scene)
+        output_folder_path = os.path.join(output, scene)
 
         images = sorted(os.listdir(scene_p))
 
         last_index = get_scene_image_quality(images[-1])
 
+        if not os.path.exists(output_folder_path):
+                os.makedirs(output_folder_path)
         if last_index != expected:
             
             print('Update and copy images indices for %s' % scene_p)
-            
-            if not os.path.exists(output_folder_path):
-                os.makedirs(output_folder_path)
 
             for img in images:
                 img_path = os.path.join(scene_p, img)
