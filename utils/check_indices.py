@@ -58,7 +58,7 @@ def rename_folder_images(p_folder, scenes, output, expected):
             # copy as usual images
             for img in images:
                 img_path = os.path.join(scene_p, img)
-                img_output_path = os.path.join(output_folder_path, img_path)
+                img_output_path = os.path.join(output_folder_path, img)
                 shutil.copy2(img_path, img_output_path)
 
         
