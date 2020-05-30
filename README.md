@@ -42,6 +42,10 @@ bash utils/convert_folder_center.sh {input_png_folder} {output_folder} {width} {
 
 ## Reduce dataset images
 
+```sh 
+python utils/extract_scenes_folder.py --folder {input_png_folder} --output {filename} --filter {your_filter}
+```
+
 ```sh
-bash utils/check_scenes.py --folder {input_png_folder} --output {output_folder} --modulo {modulo_expected_indices_kept}
+bash utils/reduce_dataset.py --folder {input_png_folder} --output {output_folder} --step {step_of_indices_kept} --start_at {start_step_at} --scenes {scenes_filename_filtered}
 ```

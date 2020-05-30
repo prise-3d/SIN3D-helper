@@ -15,28 +15,27 @@ def get_scene_image_quality(img_path):
 
     return int(img_quality)
 
-def rename_folder_images(folder, output, expected):
+def rename_folder_images(p_folder, scenes, output, expected):
 
-    folders = os.listdir(folder)
+    scenes_path = [ os.path.join(p_folder, p) for p in scenes ]
 
-    for folder_name in folders:
+    for scene_p in scenes_path:
 
-        folder_path = os.path.join(folder, folder_name)
-        output_folder_path = os.path.join(output, folder_name)
+        output_folder_path = os.path.join(output, scene_p)
 
-        images = sorted(os.listdir(folder_path))
+        images = sorted(os.listdir(scene_p))
 
         last_index = get_scene_image_quality(images[-1])
 
         if last_index != expected:
             
-            print('Update images indices for %s' % folder_path)
+            print('Update and copy images indices for %s' % scene_p)
             
             if not os.path.exists(output_folder_path):
                 os.makedirs(output_folder_path)
 
             for img in images:
-                img_path = os.path.join(folder_path, img)
+                img_path = os.path.join(scene_p, img)
                 current_quality = get_scene_image_quality(img_path)
 
                 img_prefix_split = img_path.split('/')[-1].split(scene_image_quality_separator)
@@ -55,12 +54,18 @@ def rename_folder_images(folder, output, expected):
                 shutil.copy2(img_path, img_output_path)
 
         else:
-            print('Max expected found for', folder_path, '(no need to update)')
+
+            print('Copy images indices for %s' % scene_p)
+            # copy as usual images
+            for img in images:
+                img_path = os.path.join(scene_p, img)
+                img_output_path = os.path.join(output_folder_path, img_path)
+                shutil.copy2(img_path, img_output_path)
 
         
 def main():
 
-    parser = argparse.ArgumentParser(description="convert folder indices if needed")
+    parser = argparse.ArgumentParser(description="convert folder indices of scenes if needed and save into new folder")
 
     parser.add_argument('--folder', type=str, help="folder with HD images", required=True)
     parser.add_argument('--output', type=str, help="output folder", required=True)
@@ -72,7 +77,9 @@ def main():
     p_output = args.output
     p_expected = args.expected
 
-    rename_folder_images(p_folder, p_output, p_expected)
+    scenes = sorted(os.listdir(p_folder))
+
+    rename_folder_images(p_folder, scenes, p_output, p_expected)
 
 if __name__ == "__main__":
     main()

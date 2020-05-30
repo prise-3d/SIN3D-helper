@@ -5,6 +5,7 @@ import shutil
 
 
 def main():
+    
     parser = argparse.ArgumentParser(description="Reduced data to keep for SIN3D app")
 
     parser.add_argument('--folder', type=str, help='folder with all scenes', required=True)
