@@ -58,7 +58,7 @@ def main():
             image_index = int(img.split('_')[-1].replace('.png', ''))
 
             # check modulo step to check if needed to keep image or not
-            if image_index % p_step == 0 and image_index >= p_start_at:
+            if image_index % p_step == 0 or image_index <= p_start_at:
 
                 # we can keep image and save it in to expected folder
                 shutil.copy2(img_path, os.path.join(output_scene_path, img))
