@@ -55,7 +55,7 @@ def main():
 
             img_path = images_path[id]
 
-            image_index = int(img.split('_')[-1].replace('.png', ''))
+            image_index = int(img.split('_')[-1].split('.')[0])
 
             # check modulo step to check if needed to keep image or not
             if image_index % p_step == 0 or image_index <= p_start_at:
