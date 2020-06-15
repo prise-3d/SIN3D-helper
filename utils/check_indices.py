@@ -15,9 +15,8 @@ def get_scene_image_quality(img_path):
 
     return int(img_quality)
 
-def rename_folder_images(p_folder, scenes, output, expected):
-
-
+def rename_folder_images(p_folder, scenes, output, expected, p_mult):
+    
     for scene in scenes:
 
         scene_p = os.path.join(p_folder, scene)
@@ -42,7 +41,7 @@ def rename_folder_images(p_folder, scenes, output, expected):
 
                 img_prefix = "_".join(img_prefix_split)
 
-                index_str = str(current_quality * 20)
+                index_str = str(current_quality * p_mult)
 
                 while len(index_str) < 5:
                     index_str = "0" + index_str
@@ -69,16 +68,18 @@ def main():
     parser.add_argument('--folder', type=str, help="folder with HD images", required=True)
     parser.add_argument('--output', type=str, help="output folder", required=True)
     parser.add_argument('--expected', type=int, help="max expected index", required=True)
+    parser.add_argument('--mult', type=int, help="multiplicator to use", default=20)
 
     args = parser.parse_args()
 
     p_folder = args.folder
     p_output = args.output
     p_expected = args.expected
+    p_mult   = args.mult
 
     scenes = sorted(os.listdir(p_folder))
 
-    rename_folder_images(p_folder, scenes, p_output, p_expected)
+    rename_folder_images(p_folder, scenes, p_output, p_expected, p_mult)
 
 if __name__ == "__main__":
     main()
